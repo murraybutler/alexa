@@ -1,0 +1,66 @@
+{
+  "type": "GameEngine.StartInputHandler",
+  "comment": "count up to 5 green presses, but fail if 3 red presses happen before that, with warnings each time",
+  "timeout": 10000,
+  "gadgets": ["bob"],
+  "recognizers": {
+    "greens": {
+      "type": "match",
+      "anchor": "start",
+      "fuzzy": true,
+      "pattern": [
+        {
+          "action": "down",
+          "colors": ["00FF00"],
+          "repeat": 5
+        }
+      ]
+    },
+    "three reds": {
+      "type": "match",
+      "anchor": "start",
+      "fuzzy": true,
+      "pattern": [
+        {
+          "action": "down",
+          "colors": ["FF0000"],
+          "repeat": 3
+        }
+      ]
+    },
+    "last was red": {
+      "type": "match",
+      "anchor": "end",
+      "fuzzy": false,
+      "pattern": [
+        {
+          "action": "down",
+          "colors": ["FF0000"]
+        }
+      ]
+    }
+  },
+  "events": {
+    "won": {
+      "meets": [ "greens" ],
+      "reports": "history",
+      "shouldEndInputHandler": true
+    },
+    "struck out": {
+      "meets": [ "three reds" ],
+      "reports": "history",
+      "shouldEndInputHandler": true
+    },
+    "warning": {
+      "meets": [ "last was red" ],
+      "fails": [ "three reds" ],
+      "reports": "history",
+      "shouldEndInputHandler": false
+    },
+    "timeout": {
+      "meets": [ "timed out" ],
+      "reports": "history",
+      "shouldEndInputHandler": true
+    }
+  }
+}

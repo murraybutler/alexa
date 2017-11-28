@@ -1,0 +1,29 @@
+{
+  "type": "GameEngine.StartInputHandler",
+  "timeout": 5000,
+  "comment": "first to buzz in, but only if the button is green",
+  "recognizers": {
+    "greenHit": {
+      "type": "match",
+      "fuzzy": true,
+      "pattern": [
+        {
+          "action": "down",
+          "colors": [ "00FF00" ]
+        }
+      ]
+    }
+  },
+  "events": {
+    "winner": {
+      "meets": [ "greenHit" ],
+      "reports": "matches",
+      "shouldEndInputHandler": true
+    },
+    "ended": {
+      "meets": [ "timed out" ],
+      "reports": "history",
+      "shouldEndInputHandler": true
+    }
+  }
+}

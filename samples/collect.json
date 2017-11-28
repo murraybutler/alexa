@@ -1,0 +1,13 @@
+{
+  "type": "GameEngine.StartInputHandler",
+  "timeout": 10000,
+  "comment": "Just one event at timeout, with full history",
+  "recognizers": {},
+  "events": {
+    "done": {
+      "meets": [ "timed out" ],
+      "reports": "history",
+      "shouldEndInputHandler": true
+    }
+  }
+}

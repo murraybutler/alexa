@@ -1,0 +1,31 @@
+{
+  "type": "GameEngine.StartInputHandler",
+  "timeout": 10000,
+  "comment": "Win if we get 20 yellow down events in 10 seconds, otherwise lose",
+  "recognizers": {
+    "yellowDown": {
+      "type": "match",
+      "fuzzy": true,
+      "anchor": "start",
+      "pattern": [
+        {
+          "action": "down",
+          "colors": [ "FFFF00" ],
+          "repeat": 20
+        }
+      ]
+    }
+  },
+  "events": {
+    "win": {
+      "meets": [ "yellowDown" ],
+      "reports": "matches",
+      "shouldEndInputHandler": true
+    },
+    "lose": {
+      "meets": [ "timed out" ],
+      "reports": "history",
+      "shouldEndInputHandler": true
+    }
+  }
+}

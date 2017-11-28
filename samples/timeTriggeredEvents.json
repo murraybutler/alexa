@@ -1,0 +1,32 @@
+{
+  "type": "GameEngine.StartInputHandler",
+  "timeout": 15000,
+  "comment": "events at fixed trigger times, some conditionally",
+  "recognizers": {
+    "button down": {
+      "type": "match",
+      "pattern": [
+        {
+          "action": "down"
+        }
+      ]
+    }
+  },
+  "events": {
+    "first trigger": {
+      "meets": [],
+      "reports": "matches",
+      "shouldEndInputHandler": false,
+      "triggerTimeMilliseconds": 5000
+    },
+    "second trigger": {
+      "meets": [ "button down" ],
+      "shouldEndInputHandler": false,
+      "triggerTimeMilliseconds": 10000
+    },
+    "ended": {
+      "meets": [ "timed out" ],
+      "shouldEndInputHandler": true
+    }
+  }
+}

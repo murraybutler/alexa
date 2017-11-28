@@ -1,0 +1,52 @@
+{
+  "type": "GameEngine.StartInputHandler",
+  "timeout": 10000,
+  "comment": "try to match a specific pattern, otherwise report failure and quit",
+  "recognizers": {
+    "sequence": {
+      "type": "match",
+      "anchor": "start",
+      "actions": [ "down" ],
+      "gadgetIds": [ "alice", "bob" ],
+      "pattern": [
+        {
+          "gadgetIds": ["bob"],
+          "colors": ["FF0000"]
+        },
+        {
+          "gadgetIds": ["alice"],
+          "colors": ["00FF00"]
+        },
+        {
+          "gadgetIds": ["alice"],
+          "colors": ["0000FF"]
+        },
+        {
+          "gadgetIds": ["bob"],
+          "colors": ["00FF00"]
+        }
+      ]
+    },
+    "antiSequence": {
+      "type": "deviation",
+      "recognizer": "sequence"
+    }
+  },
+  "events": {
+    "win": {
+      "meets": [ "sequence" ],
+      "reports": "matches",
+      "shouldEndInputHandler": true
+    },
+    "lose": {
+      "meets": [ "antiSequence" ],
+      "reports": "matches",
+      "shouldEndInputHandler": true
+    },
+    "timeout": {
+      "meets": [ "timed out" ],
+      "reports": "history",
+      "shouldEndInputHandler": true
+    }
+  }
+}

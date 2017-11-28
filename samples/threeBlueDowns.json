@@ -1,0 +1,38 @@
+{
+  "type": "GameEngine.StartInputHandler",
+  "comment": "simple sequence of three blue button presses, ignoring anything else",
+  "timeout": 5000,
+  "recognizers": {
+    "threeBlues": {
+      "type": "match",
+      "anchor": "end",
+      "fuzzy": true,
+      "pattern": [
+        {
+          "colors": [ "0000FF" ],
+          "action": "down"
+        },
+        {
+          "colors": [ "0000FF" ],
+          "action": "down"
+        },
+        {
+          "colors": [ "0000FF" ],
+          "action": "down"
+        }
+      ]
+    }
+  },
+  "events": {
+    "threeBlues": {
+      "meets": [ "threeBlues" ],
+      "reports": "matches",
+      "shouldEndInputHandler": true
+    },
+    "ended": {
+      "meets": [ "timed out" ],
+      "reports": "history",
+      "shouldEndInputHandler": true
+    }
+  }
+}

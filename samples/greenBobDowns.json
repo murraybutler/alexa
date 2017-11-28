@@ -1,0 +1,29 @@
+{
+  "type": "GameEngine.StartInputHandler",
+  "timeout": 5000,
+  "comment": "report all of the button bob's green down events",
+  "recognizers": {
+    "bobDown": {
+      "type": "match",
+      "anchor": "end",
+      "gadgetIds": [ "bob" ],
+      "pattern": [
+        {
+          "action": "down",
+          "colors": [ "00FF00" ]
+        }
+      ]
+    }
+  },
+  "events": {
+    "downOnGreen": {
+      "meets": [ "bobDown" ],
+      "reports": "matches",
+      "shouldEndInputHandler": false
+    },
+    "ended": {
+      "meets": [ "timed out" ],
+      "shouldEndInputHandler": true
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "GameEngine.StartInputHandler",
+  "timeout": 5000,
+  "comment": "Just pass through every event we hear about!",
+  "recognizers": {
+    "anything": {
+      "type": "match",
+      "anchor": "end",
+      "pattern": [
+        {}
+      ]
+    }
+  },
+  "events": {
+    "buttonEvent": {
+      "meets": [ "anything" ],
+      "reports": "matches",
+      "shouldEndInputHandler": false
+    },
+    "ended": {
+      "meets": [ "timed out" ],
+      "shouldEndInputHandler": true
+    }
+  }
+}

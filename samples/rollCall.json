@@ -1,0 +1,35 @@
+{
+  "type": "GameEngine.StartInputHandler",
+  "timeout": 10000,
+  "comment": "discover exactly two anonymous buttons, or fail",
+  "proxies": [ "one", "two"],
+  "recognizers": {
+    "both_pressed": {
+      "type": "match",
+      "fuzzy": true,
+      "anchor": "start",
+      "pattern": [
+        {
+          "gadgetIds": [ "one" ],
+          "action": "down"
+        },
+        {
+          "gadgetIds": [ "two" ],
+          "action": "down"
+        }
+      ]
+    }
+  },
+  "events": {
+    "all_in": {
+      "meets": [ "both_pressed" ],
+      "reports": "matches",
+      "shouldEndInputHandler": true
+    },
+    "timeout": {
+      "meets": [ "timed out" ],
+      "reports": "history",
+      "shouldEndInputHandler": true
+    }
+  }
+}

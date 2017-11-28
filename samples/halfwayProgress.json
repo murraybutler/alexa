@@ -1,0 +1,41 @@
+{
+  "type": "GameEngine.StartInputHandler",
+  "timeout": 10000,
+  "comment": "Win if we get 20 down events in 10 seconds, otherwise lose; extra event after 10 downs",
+  "recognizers": {
+    "downs": {
+      "type": "match",
+      "fuzzy": true,
+      "anchor": "start",
+      "pattern": [
+        {
+          "action": "down",
+          "repeat": 20
+        }
+      ]
+    },
+    "progress": {
+      "type": "progress",
+      "recognizer": "downs",
+      "completion": 50
+    }
+  },
+  "events": {
+    "win": {
+      "meets": [ "downs" ],
+      "reports": "matches",
+      "shouldEndInputHandler": true
+    },
+    "halfway": {
+      "meets": [ "progress" ],
+      "reports": "matches",
+      "shouldEndInputHandler": false,
+      "maximumInvocations": 1
+    },
+    "lose": {
+      "meets": [ "timed out" ],
+      "reports": "history",
+      "shouldEndInputHandler": true
+    }
+  }
+}

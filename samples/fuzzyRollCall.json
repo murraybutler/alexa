@@ -1,0 +1,71 @@
+{
+    "type": "GameEngine.StartInputHandler",
+    "comment": "This roll call asks for any number of buttons, considering roll call done when the first button is pressed a second time",
+    "timeout": 60000,
+    "proxies": [ "btn1" ],
+    "maximumHistoryLength": 100,
+    "recognizers": {
+        "buttonPress": {
+            "type": "match",
+            "fuzzy": false,
+            "anchor": "end",
+            "pattern": [
+                {
+                    "action": "down"
+                }
+            ]
+        },
+        "rrgBtn1": {
+          "type": "match",
+          "gadgetIds": [ "btn1" ],
+          "fuzzy": false,
+          "actions": ["down"],
+          "anchor": "end",
+          "pattern": [
+            { "colors": [ "FF0000" ] },
+            { "colors": [ "FF0000" ] },
+            { "colors": [ "00FF00" ] }
+          ]
+        },
+        "doublePress": {
+            "type": "match",
+            "fuzzy": true,
+            "pattern": [
+                {
+                    "gadgetIds": [ "btn1" ],
+                    "action": "down"
+                },
+                {
+                    "gadgetIds": [ "btn1" ],
+                    "action": "down"
+                }
+            ]
+        }
+    },
+    "events": {
+        "NewButton": {
+            "meets": [
+                "buttonPress"
+            ],
+            "fails": [
+                "doublePress"
+            ],
+            "reports": "history",
+            "shouldEndInputHandler": false
+        },
+        "Timedout": {
+            "meets": [
+                "timed out"
+            ],
+            "reports": "history",
+            "shouldEndInputHandler": true
+        },
+        "Finished": {
+            "meets": [
+                "doublePress"
+            ],
+            "reports": "history",
+            "shouldEndInputHandler": true
+        }
+    }
+}
